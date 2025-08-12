@@ -1,11 +1,22 @@
 
 import css from './App.module.css'
+import { useState } from 'react'
+import { useQuery } from "@tanstack/react-query";
+import { getNote } from '../../services/noteService';
 
 import NoteList from "../NoteList/NoteList"
 import SearchBox from '../SearchBox/SerchBox'
-// import Modal from '../Modal/Modal'
+import Modal from '../Modal/Modal'
 
 export default function App() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false)
+
+    const { data } = useQuery({
+        queryKey: ["notes"],
+        queryFn: getNote
+    })
 
     return (
         <>
@@ -13,10 +24,10 @@ export default function App() {
                 <header className={css.toolbar}>
                     <SearchBox />
                     {/* Пагінація */}
-                    <button className={css.button}>Create note +</button>
+                    <button className={css.button} onClick={openModal}>Create note +</button>
                 </header>
-                <NoteList />
-                {/* <Modal /> */}
+                {data && <NoteList notes={data} />}
+                {isModalOpen && <Modal onClose={closeModal} />}
             </div>
         </>
     )
