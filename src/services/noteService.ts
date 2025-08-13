@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { Note } from "../types/note"
+import { Note, NoteId } from "../types/note"
 
 const VITE_NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 
@@ -24,3 +24,56 @@ export const getNote = async () => {
     );
     return res.data;
 };
+
+export const deleteNote = async (noteId: NoteId) => {
+    const res = await axios.delete<Note>(
+        "/notes", {
+        params: {
+            id: noteId,
+        },
+        headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${VITE_NOTEHUB_TOKEN}`,
+        }
+    }
+    );
+    return res.data;
+}
+
+export const postNote = async () => {
+    const res = await axios.post<Note>(
+        "/notes", {
+        params: {
+            "title": "Sample Note",
+            "content": "",
+            "tag": "Todo",
+        },
+        headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${VITE_NOTEHUB_TOKEN}`,
+        }
+    }
+    );
+    return res.data;
+}
+
+interface NoteUpdate {
+    id: NoteId,
+    title: string,
+    content: string,
+    tag: string,
+}
+
+export const patchNote = async (noteUpdate: NoteUpdate) => {
+    const res = await axios.patch<Note>(
+        '/note/ ${ noteUpdate }', noteUpdate, {
+        params: {
+
+        },
+        headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${VITE_NOTEHUB_TOKEN}`,
+        }
+    });
+    return res.data;
+}
