@@ -15,8 +15,11 @@ export default function App() {
 
     const { data } = useQuery({
         queryKey: ["notes"],
-        queryFn: getNote
+        queryFn: getNote,
+        // enabled: false,
     })
+
+    console.log(data)
 
     return (
         <>
@@ -26,7 +29,7 @@ export default function App() {
                     {/* Пагінація */}
                     <button className={css.button} onClick={openModal}>Create note +</button>
                 </header>
-                {data && <NoteList notes={data} />}
+                {data?.results && <NoteList notes={data.results} />}
                 {isModalOpen && <Modal onClose={closeModal} />}
             </div>
         </>

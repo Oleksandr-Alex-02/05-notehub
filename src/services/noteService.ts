@@ -2,18 +2,25 @@
 import axios from 'axios';
 import { Note } from "../types/note"
 
-// const VITE_NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
+const VITE_NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 
-axios.defaults.baseURL = "https://notehub-public.goit.study/api/notes?tag=Todo";
+axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
-// export const getNote = async () => {
-//     const res = await axios.get<Note[]>("/notes");
-//     return res.data;
-// }
-
-axios.defaults.baseURL = "https://62584f320c918296a49543e7.mockapi.io";
+interface NoteResponse {
+    results: Note[];
+}
 
 export const getNote = async () => {
-    const res = await axios.get<Note[]>("/tasks");
+    const res = await axios.get<NoteResponse>(
+        "/notes", {
+        params: {
+            //  
+        },
+        headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${VITE_NOTEHUB_TOKEN}`,
+        }
+    }
+    );
     return res.data;
 };
