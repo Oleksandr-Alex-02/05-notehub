@@ -7,7 +7,7 @@ import { getNote } from '../../services/noteService';
 import NoteList from "../NoteList/NoteList"
 import SearchBox from '../SearchBox/SerchBox'
 import Modal from '../Modal/Modal'
-import NoteForm from '../NoteForm/NoteForm';
+// import NoteForm from '../NoteForm/NoteForm';
 
 export default function App() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +17,6 @@ export default function App() {
     const { data } = useQuery({
         queryKey: ["notes"],
         queryFn: getNote,
-        // enabled: false,
     })
 
     console.log(data)
@@ -30,11 +29,9 @@ export default function App() {
                     {/* Пагінація */}
                     <button className={css.button} onClick={openModal}>Create note +</button>
                 </header>
-                {data?.results && <NoteList notes={data.results} />}
+                {data && <NoteList notes={data} />}
                 {isModalOpen &&
-                    <Modal onClose={closeModal}>
-                        <NoteForm />
-                    </Modal>}
+                    <Modal></Modal>}
             </div>
         </>
     )

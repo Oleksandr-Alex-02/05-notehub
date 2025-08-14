@@ -3,11 +3,9 @@ import css from './Modal.module.css'
 import { createPortal } from 'react-dom'
 
 
-interface ModalProps {
-    onClose: () => void;
-}
 
-export default function Modal({ onClose }: ModalProps) {
+
+export default function Modal() {
 
     return createPortal(
         <>
@@ -17,7 +15,7 @@ export default function Modal({ onClose }: ModalProps) {
                 aria-modal="true"
             >
                 <div className={css.modal}>
-                    <button onClick={onClose}>Create note +</button>
+                    <button >Create note +</button>
                     {/*  */}
 
                 </div>

@@ -8,4 +8,11 @@ export interface Note {
     tag: string,
 }
 
+export interface NoteUpdateData {
+    id: string;
+    title: string;
+    content: string,
+    tag: string,
+}
+
 export type NoteId = Note["id"];
