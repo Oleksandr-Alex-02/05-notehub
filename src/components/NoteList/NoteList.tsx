@@ -12,28 +12,12 @@ interface NoteListProps {
 export default function NoteList({ notes }: NoteListProps) {
     const queryClient = useQueryClient();
 
-    const deleteTaskMutation = useMutation({
+    const deleteNoteMutation = useMutation({
         mutationFn: (id: string) => deleteNote(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["tasks"] });
+            queryClient.invalidateQueries({ queryKey: ["notes"] });
         },
     });
-
-    // const updateTaskMutation = useMutation({
-    //     mutationFn: (updatedNote: NoteUpdateData) => patchNote(updatedNote),
-    //     onSuccess: () => {
-    //         queryClient.invalidateQueries({ queryKey: ["notes"] });
-    //     },
-    // });
-
-    // const handleUpdate = (note: Note) => {
-    //     updateTaskMutation.mutate({
-    //         id: note.id,
-    //         content: note.content,
-    //         tag: note.tag,
-    //         title: note.title,
-    //     });
-    // };
 
     return (
         <ul className={css.list}>
@@ -43,13 +27,10 @@ export default function NoteList({ notes }: NoteListProps) {
                     <p className={css.content}>{note.content}</p>
                     <div className={css.footer}>
                         <span className={css.tag}>{note.tag}</span>
-                        <button onClick={() => deleteTaskMutation.mutate(note.id)} className={css.button}>Delete</button>
+                        <button onClick={() => deleteNoteMutation.mutate(note.id)} className={css.button}>Delete</button>
                     </div>
                 </li>
             ))}
         </ul >
     )
 }
-
-
-

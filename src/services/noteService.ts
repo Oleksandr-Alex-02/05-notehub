@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { Note, NoteId } from "../types/note"
+import { NoteData, NoteId } from "../types/note"
 
 const VITE_NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 
@@ -8,7 +8,7 @@ axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
 
 export const getNote = async () => {
-    const res = await axios.get<Note[]>(
+    const res = await axios.get<NoteData[]>(
         "/notes", {
         params: {
             // totalPages: totalPages,
@@ -23,7 +23,7 @@ export const getNote = async () => {
 };
 
 export const deleteNote = async (noteId: NoteId) => {
-    const res = await axios.delete<Note>(
+    const res = await axios.delete<NoteData>(
         "/notes", {
         params: {
             id: noteId,
@@ -38,7 +38,7 @@ export const deleteNote = async (noteId: NoteId) => {
 }
 
 export const postNote = async () => {
-    const res = await axios.post<Note>(
+    const res = await axios.post<NoteData>(
         "/notes", {
         params: {
             "title": "Sample Note",
@@ -62,7 +62,7 @@ interface NoteUpdate {
 }
 
 export const patchNote = async (noteUpdate: NoteUpdate) => {
-    const res = await axios.patch<Note>(
+    const res = await axios.patch<NoteData>(
         '/note/ ${ noteUpdate }', noteUpdate, {
         params: {
 

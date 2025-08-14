@@ -1,11 +1,16 @@
 
+export interface NoteData {
+    notes: Note[],
+    totalPages: string,
+}
+
 export interface Note {
     id: string,
+    tag: string,
     title: string,
     content: string,
     createdAt: string,
     updatedAt: string,
-    tag: string,
 }
 
 export interface NoteUpdateData {
