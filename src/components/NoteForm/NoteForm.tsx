@@ -7,9 +7,11 @@ import { Note, NoteUpdateData } from '../../types/note'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
+interface ModalProps {
+    onClose: () => void
+}
 
-
-export default function NoteForm() {
+export default function NoteForm({ onClose }: ModalProps) {
     const queryClient = useQueryClient();
 
     const updateTaskMutation = useMutation({
@@ -61,7 +63,7 @@ export default function NoteForm() {
             </div>
 
             <div className={css.actions}>
-                <button type="button" className={css.cancelButton}>
+                <button onClick={onClose} type="button" className={css.cancelButton}>
                     Cancel
                 </button>
                 <button

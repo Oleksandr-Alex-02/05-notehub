@@ -19,9 +19,8 @@ export default function Modal({ onClose }: ModalProps) {
                 aria-modal="true"
             >
                 <div className={css.modal}>
-                    <button onClick={onClose} >Create note +</button>
                     {/*  */}
-                    <NoteForm />
+                    <NoteForm onClose={onClose} />
                 </div>
             </div>
         </>,
