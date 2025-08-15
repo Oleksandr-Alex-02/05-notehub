@@ -1,7 +1,4 @@
 
-
-// треба зробити відправку форми.
-
 import css from './NoteForm.module.css'
 import { useId } from 'react';
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
@@ -12,7 +9,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 interface ModalProps {
-    onClose: () => void
+    onClose: () => void,
+    onSuccess: () => void,
 }
 
 const initialValues: NoteFormType = {
@@ -21,32 +19,26 @@ const initialValues: NoteFormType = {
     tag: [],
 };
 
-export default function NoteForm({ onClose }: ModalProps) {
+export default function NoteForm({ onClose, onSuccess }: ModalProps) {
     const fieldId = useId();
     const queryClient = useQueryClient();
 
-    const updateNoteMutation = useMutation({
-        mutationFn: (updatedNote: NoteUpdateData) => postNote(updatedNote),
+    const { mutate, isPending } = useMutation({
+        mutationFn: (noteData: NoteFormType) => postNote(noteData),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["notes"] });
+            onSuccess();
         },
     });
 
-    // const handleUpdate = (note: Note) => {
-    //     updateTaskMutation.mutate({
-    //         id: note.id,
-    //         content: note.content,
-    //         tag: note.tag,
-    //         title: note.title,
-    //     });
-    // };
-
-    const handleSubmit = async (
+    const handleSubmit = (
         values: NoteFormType,
         formikHelpers: FormikHelpers<NoteFormType>
     ) => {
+        mutate({
+            title: values.<NoteFormType>("title") as string,
+        });
         // await new Promise((r) => setTimeout(r, 1500));
-
         console.log(values);
         formikHelpers.resetForm();
     };
