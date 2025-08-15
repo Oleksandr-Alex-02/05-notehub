@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { NoteData, NoteId } from "../types/note"
+import { NoteData, NoteId, } from "../types/note"
 
 const VITE_NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 
@@ -8,11 +8,8 @@ axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
 
 export const getNote = async () => {
-    const res = await axios.get<NoteData[]>(
+    const res = await axios.get<NoteData>(
         "/notes", {
-        params: {
-            // totalPages: totalPages,
-        },
         headers: {
             accept: "application/json",
             Authorization: `Bearer ${VITE_NOTEHUB_TOKEN}`,
@@ -24,10 +21,7 @@ export const getNote = async () => {
 
 export const deleteNote = async (noteId: NoteId) => {
     const res = await axios.delete<NoteData>(
-        "/notes", {
-        params: {
-            id: noteId,
-        },
+        `/notes/${noteId}`, {
         headers: {
             accept: "application/json",
             Authorization: `Bearer ${VITE_NOTEHUB_TOKEN}`,
@@ -36,6 +30,22 @@ export const deleteNote = async (noteId: NoteId) => {
     );
     return res.data;
 }
+
+
+// export const deleteNote = async (noteId: NoteId) => {
+//     const res = await axios.delete<NoteData>(
+//         "/notes", {
+//         params: {
+//             id: noteId,
+//         },
+//         headers: {
+//             accept: "application/json",
+//             Authorization: `Bearer ${VITE_NOTEHUB_TOKEN}`,
+//         }
+//     }
+//     );
+//     return res.data;
+// }
 
 export const postNote = async () => {
     const res = await axios.post<NoteData>(

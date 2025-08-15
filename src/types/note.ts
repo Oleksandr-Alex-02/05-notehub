@@ -1,6 +1,6 @@
 
 export interface NoteData {
-    notes: Note[],
+    notes: Note,
     totalPages: string,
 }
 
@@ -18,6 +18,12 @@ export interface NoteUpdateData {
     title: string;
     content: string,
     tag: string,
+}
+
+export interface NoteFormType {
+    title: string,
+    content: string,
+    tag: ("Todo" | "Work" | "Personal" | "Meeting" | "Shopping")[]
 }
 
 export type NoteId = Note["id"];
