@@ -7,11 +7,12 @@ const VITE_NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
 
-export const getNote = async (currentPage: number) => {
+export const getNote = async (currentPage: number,) => {
     const res = await axios.get<NoteData>(
         "/notes", {
         params: {
-            page: currentPage
+            // search: searchTerm,
+            page: currentPage,
         },
         headers: {
             accept: "application/json",
