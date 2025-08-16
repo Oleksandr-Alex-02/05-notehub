@@ -1,12 +1,23 @@
 
 import css from './NoteForm.module.css'
+import * as Yup from 'yup';
 import { useId } from 'react';
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
 
 import { postNote } from '../../services/noteService'
-import { NoteUpdateData, NoteFormType } from '../../types/note'
+import { NoteFormType } from '../../types/note'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+const validationForm = Yup.object().shape({
+    title: Yup.string()
+        .min(3, "Title must be at least 3 characters")
+        .max(50, "Content must be less than 50 characters")
+        .required("Title is required"),
+    content: Yup.string().max(500, "Content must be less than 500 characters"),
+    tag: Yup.string()
+        .oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"], "Invalid tag")
+        .required("Tag is required"),
+});
 
 interface ModalProps {
     onClose: () => void,
@@ -35,18 +46,19 @@ export default function NoteForm({ onClose, onSuccess }: ModalProps) {
         values: NoteFormType,
         formikHelpers: FormikHelpers<NoteFormType>
     ) => {
-        mutate({
-            title: values.<NoteFormType>("title") as string,
-        });
-        // await new Promise((r) => setTimeout(r, 1500));
-        console.log(values);
+        mutate(values);
         formikHelpers.resetForm();
+        onClose();
     };
 
     return (
 
-        < Formik initialValues={initialValues} onSubmit={handleSubmit} className={css.form} >
-            <Form>
+        < Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={validationForm}
+        >
+            <Form className={css.form}>
                 <div className={css.formGroup}>
                     <label htmlFor={`${fieldId}-title`}>Title</label>
                     <Field id={`${fieldId}-title`} type="text" name="title" className={css.input} />
@@ -75,7 +87,11 @@ export default function NoteForm({ onClose, onSuccess }: ModalProps) {
 
                 <div className={css.formGroup}>
                     <label htmlFor={`${fieldId}-tag`}>Tag</label>
-                    <Field as="select" id={`${fieldId}-tag`} name="tag" className={css.select}>
+                    <Field
+                        as="select"
+                        id={`${fieldId}-tag`}
+                        name="tag"
+                        className={css.select}>
                         <option value="Todo">Todo</option>
                         <option value="Work">Work</option>
                         <option value="Personal">Personal</option>
@@ -94,10 +110,9 @@ export default function NoteForm({ onClose, onSuccess }: ModalProps) {
                         Cancel
                     </button>
                     <button
-                        // onClick={onClose}
                         type="submit"
                         className={css.submitButton}
-                        disabled={false}
+                        disabled={isPending}
                     >
                         Create note
                     </button>
