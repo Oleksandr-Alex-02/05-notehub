@@ -1,7 +1,7 @@
 
 export interface NoteData {
     notes: Note,
-    totalPages: string,
+    totalPages: number,
 }
 
 export interface Note {
@@ -14,7 +14,7 @@ export interface Note {
 }
 
 export interface NoteUpdateData {
-    id: string;
+    // id: string;
     title: string;
     content: string,
     tag: string,

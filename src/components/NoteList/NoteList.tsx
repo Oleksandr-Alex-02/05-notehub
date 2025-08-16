@@ -9,7 +9,7 @@ interface NoteListProps {
     notes: Note[];
 }
 
-export default function NoteList({ notes }: NoteListProps) {
+export default function NoteList({ notes, }: NoteListProps) {
     const queryClient = useQueryClient();
 
     const deleteNoteMutation = useMutation({

@@ -20,7 +20,6 @@ const validationForm = Yup.object().shape({
 });
 
 interface ModalProps {
-    onClose: () => void,
     onSuccess: () => void,
 }
 
@@ -30,7 +29,7 @@ const initialValues: NoteFormType = {
     tag: [],
 };
 
-export default function NoteForm({ onClose, onSuccess }: ModalProps) {
+export default function NoteForm({ onSuccess }: ModalProps) {
     const fieldId = useId();
     const queryClient = useQueryClient();
 
@@ -48,7 +47,6 @@ export default function NoteForm({ onClose, onSuccess }: ModalProps) {
     ) => {
         mutate(values);
         formikHelpers.resetForm();
-        onClose();
     };
 
     return (
@@ -106,7 +104,7 @@ export default function NoteForm({ onClose, onSuccess }: ModalProps) {
                 </div>
 
                 <div className={css.actions}>
-                    <button onClick={onClose} type="button" className={css.cancelButton}>
+                    <button onClick={onSuccess} type="button" className={css.cancelButton}>
                         Cancel
                     </button>
                     <button
