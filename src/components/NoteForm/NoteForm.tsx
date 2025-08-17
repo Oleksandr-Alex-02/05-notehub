@@ -19,17 +19,17 @@ const validationForm = Yup.object().shape({
         .required("Tag is required"),
 });
 
-interface ModalProps {
+interface NoteFormProps {
     onSuccess: () => void,
 }
 
 const initialValues: NoteFormType = {
     title: "",
     content: "",
-    tag: "Todo",
+    tag: "",
 };
 
-export default function NoteForm({ onSuccess }: ModalProps) {
+export default function NoteForm({ onSuccess }: NoteFormProps) {
     const fieldId = useId();
     const queryClient = useQueryClient();
 

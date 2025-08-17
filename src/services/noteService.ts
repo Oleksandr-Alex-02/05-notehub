@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { NoteData, NoteId, NoteFormType } from "../types/note"
+import { NoteData, NoteFormType } from "../types/note"
 
 const VITE_NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 
@@ -23,7 +23,7 @@ export const fetchNotes = async (currentPage: number, searchQuery: string) => {
     return res.data;
 };
 
-export const deleteNote = async (noteId: NoteId) => {
+export const deleteNote = async (noteId: string) => {
     const res = await axios.delete<NoteData>(
         `/notes/${noteId}`, {
         headers: {

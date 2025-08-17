@@ -3,22 +3,21 @@ import css from './Modal.module.css'
 import { createPortal } from 'react-dom'
 import { useEffect } from 'react';
 
-import NoteForm from '../NoteForm/NoteForm';
-
 
 interface ModalProps {
-    onSuccess: () => void,
+    onClose: () => void;
+    children: React.ReactNode;
 }
 
-export default function Modal({ onSuccess }: ModalProps) {
+export default function Modal({ onClose, children }: ModalProps) {
 
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
-            if (e.code === 'Escape') onSuccess();
+            if (e.code === 'Escape') onClose();
         };
         window.addEventListener('keydown', handleEsc);
         return () => { window.removeEventListener('keydown', handleEsc) }
-    }, [onSuccess]);
+    }, [onClose]);
 
     useEffect(() => {
         document.body.style.overflow = 'hidden'
@@ -28,7 +27,7 @@ export default function Modal({ onSuccess }: ModalProps) {
     });
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget) onSuccess();
+        if (e.target === e.currentTarget) onClose();
     }
 
     return createPortal(
@@ -40,7 +39,7 @@ export default function Modal({ onSuccess }: ModalProps) {
                 aria-modal="true"
             >
                 <div className={css.modal}>
-                    <NoteForm onSuccess={onSuccess} />
+                    {children}
                 </div>
             </div>
         </>,

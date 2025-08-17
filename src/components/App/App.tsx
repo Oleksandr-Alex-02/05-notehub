@@ -4,29 +4,29 @@ import { useState } from 'react'
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { fetchNotes } from '../../services/noteService';
 import { useDebouncedCallback } from "use-debounce";
+import { NoteData } from '../../types/note'
 
-import ReactPaginate from 'react-paginate';
+import Pagination from '../Pagination/Pagination'
 import NoteList from "../NoteList/NoteList"
 import SearchBox from '../SearchBox/SearchBox'
 import Modal from '../Modal/Modal'
+import NoteForm from '../NoteForm/NoteForm';
 
 export default function App() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false)
 
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState<string>("");
     const debouncedSetSearchQuery = useDebouncedCallback(setSearchQuery, 300);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
-
-    const { data, isLoading } = useQuery({
+    const { data } = useQuery<NoteData>({
         queryKey: ["notes", currentPage, searchQuery],
         queryFn: () => fetchNotes(currentPage, searchQuery),
         placeholderData: keepPreviousData,
     })
 
-    console.log(data?.notes)
     const totalPages = data?.totalPages || 0;
 
     return (
@@ -35,16 +35,10 @@ export default function App() {
                 <header className={css.toolbar}>
                     <SearchBox text={searchQuery} onSearch={debouncedSetSearchQuery} />
                     {totalPages > 1 &&
-                        < ReactPaginate
-                            pageCount={totalPages}
-                            pageRangeDisplayed={5}
-                            marginPagesDisplayed={1}
-                            onPageChange={({ selected }) => setCurrentPage(selected + 1)}
-                            forcePage={currentPage - 1}
-                            containerClassName={css.pagination}
-                            activeClassName={css.active}
-                            nextLabel="→"
-                            previousLabel="←"
+                        <Pagination
+                            totalPages={totalPages}
+                            currentPage={currentPage}
+                            onPageChange={setCurrentPage}
                         />
                     }
                     <button className={css.button} onClick={openModal}>Create note +</button>
@@ -52,7 +46,9 @@ export default function App() {
 
                 {/* {data && <NoteList notes={data.notes} />} */}
                 {/* {data && data?.notes && <NoteList notes={data.notes} />} */}
-                {data && data?.notes.length > 0 && <NoteList notes={data.notes} />}
+                {/* {data && <NoteList notes={data.notes} />} */}
+                {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
+
 
                 {/* {totalPages > 1 && isLoading && data && <NoteList notes={data} />} //тут не рендерить розиітку */}
                 {/* {totalPages > 1 && isLoading && data && <NoteList notes={data.notes} />} */}
@@ -63,8 +59,12 @@ export default function App() {
                 {/* {data?.notes.length > 0 ? < NoteList notes={data} /> : "No unread messages"} */}
                 {/* {data?.notes === data ? < NoteList notes={data} /> : "No unread messages"} */}
 
-                {isModalOpen && <Modal onSuccess={closeModal} />}
-            </div>
+                {isModalOpen && (
+                    < Modal onClose={closeModal}>
+                        <NoteForm onSuccess={closeModal} />
+                    </Modal>
+                )}
+            </div >
         </>
     )
 }
