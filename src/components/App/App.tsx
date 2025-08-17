@@ -20,12 +20,13 @@ export default function App() {
     const [currentPage, setCurrentPage] = useState(1);
 
 
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["notes", currentPage, searchQuery],
         queryFn: () => fetchNotes(currentPage, searchQuery),
         placeholderData: keepPreviousData,
     })
 
+    console.log(data?.notes)
     const totalPages = data?.totalPages || 0;
 
     return (
@@ -48,10 +49,22 @@ export default function App() {
                     }
                     <button className={css.button} onClick={openModal}>Create note +</button>
                 </header>
-                {data && data?.notes && <NoteList notes={data.notes} />}
+
+                {/* {data && <NoteList notes={data.notes} />} */}
+                {/* {data && data?.notes && <NoteList notes={data.notes} />} */}
+                {data && data?.notes.length > 0 && <NoteList notes={data.notes} />}
+
+                {/* {totalPages > 1 && isLoading && data && <NoteList notes={data} />} //тут не рендерить розиітку */}
+                {/* {totalPages > 1 && isLoading && data && <NoteList notes={data.notes} />} */}
+
+                {/* {isLoading ? < NoteList notes={data.note} /> : "No unread messages"} */}
+                {/* {isLoading && <NoteList notes={data.note} />} */}
+
+                {/* {data?.notes.length > 0 ? < NoteList notes={data} /> : "No unread messages"} */}
+                {/* {data?.notes === data ? < NoteList notes={data} /> : "No unread messages"} */}
+
                 {isModalOpen && <Modal onSuccess={closeModal} />}
             </div>
         </>
     )
 }
-// пошук
