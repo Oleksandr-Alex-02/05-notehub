@@ -1,9 +1,4 @@
 
-export interface NoteData {
-    notes: Note[],
-    totalPages: number,
-};
-
 export interface Note {
     id: string,
     tag: string,

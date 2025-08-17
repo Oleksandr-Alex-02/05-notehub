@@ -1,6 +1,12 @@
 
 import axios from 'axios';
-import { NoteData, NoteFormType } from "../types/note"
+import { Note, NoteFormType } from "../types/note"
+
+export interface NoteData {
+    notes: Note[];
+    totalPages: number;
+}
+
 
 const VITE_NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 
@@ -24,7 +30,7 @@ export const fetchNotes = async (currentPage: number, searchQuery: string) => {
 };
 
 export const deleteNote = async (noteId: string) => {
-    const res = await axios.delete<NoteData>(
+    const res = await axios.delete<Note>(
         `/notes/${noteId}`, {
         headers: {
             accept: "application/json",
@@ -36,7 +42,7 @@ export const deleteNote = async (noteId: string) => {
 }
 
 export const createNote = async (noteData: NoteFormType) => {
-    const res = await axios.post<NoteData>(
+    const res = await axios.post<Note>(
         "/notes", noteData, {
         headers: {
             accept: "application/json",
@@ -48,7 +54,7 @@ export const createNote = async (noteData: NoteFormType) => {
 }
 
 // interface NoteUpdate {
-//     id: NoteId,
+//     id: string;
 //     title: string,
 //     content: string,
 //     tag: string,
@@ -56,9 +62,11 @@ export const createNote = async (noteData: NoteFormType) => {
 
 // export const patchNote = async (noteUpdate: NoteUpdate) => {
 //     const res = await axios.patch<NoteData>(
-//         '/note/ ${ noteUpdate }', noteUpdate, {
+//         `/notes/${noteUpdate.id}`, {
 //         params: {
-
+//             title: noteUpdate.title,
+//             content: noteUpdate.content,
+//             tag: noteUpdate.tag,
 //         },
 //         headers: {
 //             accept: "application/json",
