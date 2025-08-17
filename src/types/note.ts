@@ -14,16 +14,17 @@ export interface Note {
 }
 
 export interface NoteUpdateData {
-    // id: string;
     title: string;
-    content: string,
     tag: string,
+    content: string,
 }
 
 export interface NoteFormType {
     title: string,
+    tag?: string,
     content?: string,
-    tag?: ("Todo" | "Work" | "Personal" | "Meeting" | "Shopping")[]
 }
 
 export type NoteId = Note["id"];
+
+// ("Todo" | "Work" | "Personal" | "Meeting" | "Shopping")[]

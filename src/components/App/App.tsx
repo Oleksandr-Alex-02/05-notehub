@@ -46,10 +46,9 @@ export default function App() {
                             previousLabel="←"
                         />
                     }
-
                     <button className={css.button} onClick={openModal}>Create note +</button>
                 </header>
-                {data?.notes && <NoteList notes={data.notes} />}
+                {data && data?.notes && <NoteList notes={data.notes} />}
                 {isModalOpen && <Modal onSuccess={closeModal} />}
             </div>
         </>

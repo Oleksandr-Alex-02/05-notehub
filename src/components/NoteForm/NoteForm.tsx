@@ -26,7 +26,7 @@ interface ModalProps {
 const initialValues: NoteFormType = {
     title: "",
     content: "",
-    tag: [],
+    tag: "Todo",
 };
 
 export default function NoteForm({ onSuccess }: ModalProps) {
