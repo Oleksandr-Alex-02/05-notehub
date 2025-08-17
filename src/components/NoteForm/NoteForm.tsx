@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useId } from 'react';
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
 
-import { postNote } from '../../services/noteService'
+import { createNote } from '../../services/noteService'
 import { NoteFormType } from '../../types/note'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -34,7 +34,7 @@ export default function NoteForm({ onSuccess }: ModalProps) {
     const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (noteData: NoteFormType) => postNote(noteData),
+        mutationFn: (noteData: NoteFormType) => createNote(noteData),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["notes"] });
             onSuccess();

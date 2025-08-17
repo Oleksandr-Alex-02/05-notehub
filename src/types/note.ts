@@ -21,7 +21,7 @@ export interface NoteUpdateData {
 
 export interface NoteFormType {
     title: string,
-    tag?: string,
+    tag: string,
     content?: string,
 }
 

@@ -2,7 +2,7 @@
 import css from './App.module.css'
 import { useState } from 'react'
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { getNote } from '../../services/noteService';
+import { fetchNotes } from '../../services/noteService';
 import { useDebouncedCallback } from "use-debounce";
 
 import ReactPaginate from 'react-paginate';
@@ -22,7 +22,7 @@ export default function App() {
 
     const { data } = useQuery({
         queryKey: ["notes", currentPage, searchQuery],
-        queryFn: () => getNote(currentPage, searchQuery),
+        queryFn: () => fetchNotes(currentPage, searchQuery),
         placeholderData: keepPreviousData,
     })
 
