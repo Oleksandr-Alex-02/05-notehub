@@ -17,12 +17,12 @@ export default function App() {
 
     const [searchQuery, setSearchQuery] = useState("");
     const debouncedSetSearchQuery = useDebouncedCallback(setSearchQuery, 300);
-
     const [currentPage, setCurrentPage] = useState(1);
 
+
     const { data } = useQuery({
-        queryKey: ["notes", currentPage],
-        queryFn: () => getNote(currentPage),
+        queryKey: ["notes", currentPage, searchQuery],
+        queryFn: () => getNote(currentPage, searchQuery),
         placeholderData: keepPreviousData,
     })
 
